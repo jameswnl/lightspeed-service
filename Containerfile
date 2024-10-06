@@ -3,7 +3,7 @@ ARG AAP_RAG_CONTENT_IMAGE=quay.io/ttakamiy/aap-rag-content:latest
 
 FROM ${LIGHTSPEED_RAG_CONTENT_IMAGE} as lightspeed-rag-content
 
-FROM registry.redhat.io/ubi9/ubi-minimal
+FROM registry.access.redhat.com/ubi9/ubi-minimal
 
 ARG VERSION
 ARG APP_ROOT=/app-root
