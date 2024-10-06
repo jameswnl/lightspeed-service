@@ -26,6 +26,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: refs/heads/aap
 
     - name: Build Image
       id: build-image
