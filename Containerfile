@@ -1,9 +1,9 @@
 # vim: set filetype=dockerfile
-ARG AAP_RAG_CONTENT_IMAGE=quay.io/ttakamiy/aap-rag-content:latest
+ARG LIGHTSPEED_RAG_CONTENT_IMAGE=quay.io/openshift-lightspeed/lightspeed-rag-content@sha256:79745285089be76ce80b5257cc08303b2ab29d5f048fff08690af45289a16c5b
 
 FROM ${LIGHTSPEED_RAG_CONTENT_IMAGE} as lightspeed-rag-content
 
-FROM registry.access.redhat.com/ubi9/ubi-minimal
+FROM registry.redhat.io/ubi9/ubi-minimal
 
 ARG VERSION
 ARG APP_ROOT=/app-root
