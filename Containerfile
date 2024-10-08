@@ -5,7 +5,6 @@ FROM ${LIGHTSPEED_RAG_CONTENT_IMAGE} as lightspeed-rag-content
 
 FROM registry.redhat.io/ubi9/ubi-minimal
 
-ARG VERSION
 ARG APP_ROOT=/app-root
 
 RUN microdnf install -y --nodocs --setopt=keepcache=0 --setopt=tsflags=nodocs \
