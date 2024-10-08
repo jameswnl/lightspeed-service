@@ -24,7 +24,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR ${APP_ROOT}
 
-COPY --from=lightspeed-rag-content /rag/vector_db/ocp_product_docs ./vector_db/ocp_product_docs
+COPY --from=lightspeed-rag-content /rag/vector_db/aap_product_docs ./vector_db/aap_product_docs
 COPY --from=lightspeed-rag-content /rag/embeddings_model ./embeddings_model
 
 # Add explicit files and directories
