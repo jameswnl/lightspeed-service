@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ansible-chatbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ansible-chatbot
+  template:
+    metadata:
+      labels:
+        app: ansible-chatbot
+    spec:
+      imagePullSecrets:
+        - name: quay-pull-secret
+      volumes:
+        - name: aap-chatbot-config
+          configMap:
+            name: aap-chatbot-config
+      containers:
+        - name: ansible-chatbot
+          image: quay.io/ansible/ansible-chatbot-service:6d0153217f9d07ed88c2d7f689e8972b5c0ae9b8
+          env:
+            - name: OLS_CONFIG_FILE
+              value: /app-root/aapconfig.yaml
+          volumeMounts:
+            - name: aap-chatbot-config
+              mountPath: /app-root/aapconfig.yaml
+              subPath: aapconfig.yaml
