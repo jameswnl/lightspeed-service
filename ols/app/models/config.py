@@ -896,8 +896,8 @@ class OLSConfig(BaseModel):
             return
 
         self.conversation_cache = ConversationCacheConfig(
-            data.get("conversation_cache", None)
-        )
+            data.get("conversation_cache")
+        ) if data.get("conversation_cache") else None
         self.logging_config = LoggingConfig(**data.get("logging_config", {}))
         if data.get("reference_content") is not None:
             self.reference_content = ReferenceContent(data.get("reference_content"))
