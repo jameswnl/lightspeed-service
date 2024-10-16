@@ -92,4 +92,6 @@ def load_llm(
     logger.debug(f"loading LLM '{model}' from '{provider}'")
 
     llm_provider = llm_providers_reg.llm_providers[provider_config.type]
+    import os
+    os.environ['REQUESTS_CA_BUNDLE'] = os.getenv("MY_BUNDLE")
     return llm_provider(model, provider_config, generic_llm_params or {}).load()

@@ -8,18 +8,15 @@ data:
     llm_providers:
       - name: my_rhoai
         type: rhoai_vllm
-        url: "https://granite-8b.wisdom-model-staging.svc.cluster.local/v1"
-        # url: "https://7f09-104-148-219-166.ngrok-free.app/v1"
+        # url: "https://granite-8b.wisdom-model-staging.svc.cluster.local/v1"
+        url: "https://7f09-104-148-219-166.ngrok-free.app/v1"
         models:
           - name: granite-8b
     ols_config:
-      extra_ca:
-        - "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt"
-      # certificate_directory: "/var/run/secrets/kubernetes.io/serviceaccount"
       reference_content:
-        product_docs_index_path: "./vector_db/aap_product_docs/2.5"
-        product_docs_index_id: aap-product-docs-2_5
-        embeddings_model_path: "./embeddings_model"
+        # product_docs_index_path: "./vector_db/aap_product_docs/2.5"
+        # product_docs_index_id: aap-product-docs-2_5
+        # embeddings_model_path: "./embeddings_model"
       conversation_cache:
         type: memory
         memory:
@@ -65,12 +62,10 @@ spec:
             name: aap-chatbot-config
       containers:
         - name: ansible-chatbot
-          image: quay.io/ansible/ansible-chatbot-service:8be0c38144b04750409c3f9dc1fb27770dff1cf4
+          image: quay.io/ansible/ansible-chatbot-service:61be2d6cc53f0c6d2f9783f636d347348ef13419
           env:
             - name: OLS_CONFIG_FILE
               value: /app-root/aapconfig.yaml
-            # - name: REQUESTS_CA_BUNDLE
-            #   value: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
             - name: OPENAI_API_KEY
               value: dummy
           volumeMounts:
