@@ -325,10 +325,9 @@ class ProviderConfig(BaseModel):
             self.deployment_name = data.get("deployment_name", None)
             # note: it can be overwritten in azure_config
         if self.type in (constants.PROVIDER_RHOAI_VLLM, constants.PROVIDER_RHELAI_VLLM):
-            print(f"self.certificates_store == {certificate_directory}")
-            if certificate_directory.lower() == 'false':
-                self.certificates_store = False
-                print(f"self.certificates_store => verify off")
+            print(f"certificate_directory == {certificate_directory}")
+            if type(certificate_directory) == type(True):
+                self.certificates_store = certificate_directory
             else:
                 self.certificates_store = os.path.join(
                     certificate_directory, constants.CERTIFICATE_STORAGE_FILENAME
