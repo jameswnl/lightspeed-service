@@ -9,14 +9,14 @@ from langchain_core.prompts import (
     SystemMessagePromptTemplate,
 )
 
+from ols import config
 from ols.constants import ModelFamily
 
-from .prompts import (
-    QUERY_SYSTEM_INSTRUCTION,
-    USE_CONTEXT_INSTRUCTION,
-    USE_HISTORY_INSTRUCTION,
-)
-
+import importlib
+customize_package = 'ols.src.prompts.prompts'
+if config.ols_config.customize:
+    customize_package = f"{config.ols_config.customize}.prompts"
+customize = importlib.import_module(customize_package)
 
 def restructure_rag_context_pre(text: str, model: str) -> str:
     """Restructure rag text - pre truncation."""
@@ -52,7 +52,7 @@ class GeneratePrompt:
         query: str,
         rag_context: list[str] = [],
         history: list[str] = [],
-        system_instruction: str = QUERY_SYSTEM_INSTRUCTION,
+        system_instruction: str = customize.QUERY_SYSTEM_INSTRUCTION,
     ):
         """Initialize prompt generator."""
         self._query = query
@@ -68,7 +68,7 @@ class GeneratePrompt:
 
         if len(self._rag_context) > 0:
             llm_input_values["context"] = "".join(self._rag_context)
-            sys_intruction = sys_intruction + "\n" + USE_CONTEXT_INSTRUCTION.strip()
+            sys_intruction = sys_intruction + "\n" + customize.USE_CONTEXT_INSTRUCTION.strip()
 
         if len(self._history) > 0:
             chat_history = []
@@ -79,7 +79,7 @@ class GeneratePrompt:
                     chat_history.append(AIMessage(content=h.removeprefix("ai: ")))
             llm_input_values["chat_history"] = chat_history
 
-            sys_intruction = sys_intruction + "\n" + USE_HISTORY_INSTRUCTION.strip()
+            sys_intruction = sys_intruction + "\n" + customize.USE_HISTORY_INSTRUCTION.strip()
 
         if "context" in llm_input_values:
             sys_intruction = sys_intruction + "\n{context}"
@@ -99,10 +99,10 @@ class GeneratePrompt:
 
         if len(self._rag_context) > 0:
             llm_input_values["context"] = "".join(self._rag_context)
-            prompt_message = prompt_message + "\n" + USE_CONTEXT_INSTRUCTION.strip()
+            prompt_message = prompt_message + "\n" + customize.USE_CONTEXT_INSTRUCTION.strip()
 
         if len(self._history) > 0:
-            prompt_message = prompt_message + "\n" + USE_HISTORY_INSTRUCTION.strip()
+            prompt_message = prompt_message + "\n" + customize.USE_HISTORY_INSTRUCTION.strip()
             llm_input_values["chat_history"] = "".join(self._history)
 
         if "context" in llm_input_values:

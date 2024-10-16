@@ -33,8 +33,16 @@ from ols.src.query_helpers.docs_summarizer import DocsSummarizer
 from ols.src.query_helpers.question_validator import QuestionValidator
 from ols.utils import errors_parsing, suid
 from ols.utils.auth_dependency import AuthDependency
-from ols.utils.keywords import KEYWORDS
 from ols.utils.token_handler import PromptTooLongError
+
+import importlib
+customize_package = 'ols.utils.keywords'
+if config.ols_config.customize:
+    keywords = importlib.import_module(f"{config.ols_config.customize}.keywords")
+    prompts = importlib.import_module(f"{config.ols_config.customize}.prompts")
+else:
+    keywords = importlib.import_module('ols.utils.keywords')
+    prompts = importlib.import_module('ols.src.prompts.prompts')
 
 logger = logging.getLogger(__name__)
 
@@ -130,7 +138,7 @@ def conversation_request(
 
     if not valid:
         summarizer_response = SummarizerResponse(
-            constants.INVALID_QUERY_RESP,
+            prompts.INVALID_QUERY_RESP,
             [],
             False,
         )
@@ -484,7 +492,7 @@ def _validate_question_keyword(query: str) -> bool:
     # Current implementation is without any tokenizer method, lemmatization/n-grams.
     # Add valid keywords to keywords.py file.
     query_temp = query.lower()
-    for kw in KEYWORDS:
+    for kw in keywords.KEYWORDS:
         if kw in query_temp:
             return True
     # query_temp = {q_word.lower().strip(".?,") for q_word in query.split()}

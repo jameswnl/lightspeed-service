@@ -31,6 +31,12 @@ Here are some basic facts about OpenShift:
 - OpenShift is a distribution of Kubernetes. Everything Kubernetes can do, OpenShift can do and more.
 """
 
+# Default responses
+INVALID_QUERY_RESP = (
+    "Hi, I'm the OpenShift Lightspeed assistant, I can help you with questions about OpenShift, "
+    "please ask me a question related to OpenShift."
+)
+
 USE_CONTEXT_INSTRUCTION = """
 Use the retrieved document to answer the question.
 """
