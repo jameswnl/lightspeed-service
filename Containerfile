@@ -1,40 +1,42 @@
-# vim: set filetype=dockerfile
-ARG LIGHTSPEED_RAG_CONTENT_IMAGE=quay.io/ttakamiy/aap-rag-content:latest
+# # vim: set filetype=dockerfile
+# ARG LIGHTSPEED_RAG_CONTENT_IMAGE=quay.io/ttakamiy/aap-rag-content:latest
 
-FROM ${LIGHTSPEED_RAG_CONTENT_IMAGE} as lightspeed-rag-content
+# FROM ${LIGHTSPEED_RAG_CONTENT_IMAGE} as lightspeed-rag-content
 
-FROM registry.access.redhat.com/ubi9/ubi-minimal
+# FROM registry.access.redhat.com/ubi9/ubi-minimal
 
+# ARG APP_ROOT=/app-root
+
+# RUN microdnf install -y --nodocs --setopt=keepcache=0 --setopt=tsflags=nodocs \
+#     python3.11 python3.11-devel python3.11-pip shadow-utils \
+#     && microdnf clean all --enablerepo='*'
+
+# # PYTHONDONTWRITEBYTECODE 1 : disable the generation of .pyc
+# # PYTHONUNBUFFERED 1 : force the stdout and stderr streams to be unbuffered
+# # PYTHONCOERCECLOCALE 0, PYTHONUTF8 1 : skip legacy locales and use UTF-8 mode
+# ENV PYTHONDONTWRITEBYTECODE=1 \
+#     PYTHONUNBUFFERED=1 \
+#     PYTHONCOERCECLOCALE=0 \
+#     PYTHONUTF8=1 \
+#     PYTHONIOENCODING=UTF-8 \
+#     LANG=en_US.UTF-8 \
+#     PIP_NO_CACHE_DIR=off
+
+# WORKDIR ${APP_ROOT}
+
+# COPY --from=lightspeed-rag-content /rag/vector_db/aap_product_docs ./vector_db/aap_product_docs
+# COPY --from=lightspeed-rag-content /rag/embeddings_model ./embeddings_model
+
+# # Add explicit files and directories
+# # (avoid accidental inclusion of local directories or env files or credentials)
+# COPY pyproject.toml pdm.lock runner.py ./
+# RUN pip3.11 install --no-cache-dir --upgrade pip pdm==2.18.1 \
+#     && pdm config python.use_venv false \
+#     && pdm sync --global --prod -p ${APP_ROOT}
+
+FROM quay.io/ansible/ansible-chatbot-service:base
 ARG APP_ROOT=/app-root
-
-RUN microdnf install -y --nodocs --setopt=keepcache=0 --setopt=tsflags=nodocs \
-    python3.11 python3.11-devel python3.11-pip shadow-utils \
-    && microdnf clean all --enablerepo='*'
-
-# PYTHONDONTWRITEBYTECODE 1 : disable the generation of .pyc
-# PYTHONUNBUFFERED 1 : force the stdout and stderr streams to be unbuffered
-# PYTHONCOERCECLOCALE 0, PYTHONUTF8 1 : skip legacy locales and use UTF-8 mode
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PYTHONCOERCECLOCALE=0 \
-    PYTHONUTF8=1 \
-    PYTHONIOENCODING=UTF-8 \
-    LANG=en_US.UTF-8 \
-    PIP_NO_CACHE_DIR=off
-
 WORKDIR ${APP_ROOT}
-
-COPY --from=lightspeed-rag-content /rag/vector_db/aap_product_docs ./vector_db/aap_product_docs
-COPY --from=lightspeed-rag-content /rag/embeddings_model ./embeddings_model
-
-# Add explicit files and directories
-# (avoid accidental inclusion of local directories or env files or credentials)
-COPY pyproject.toml pdm.lock runner.py ./
-RUN pip3.11 install --no-cache-dir --upgrade pip pdm==2.18.1 \
-    && pdm config python.use_venv false \
-    && pdm sync --global --prod -p ${APP_ROOT}
-
-
 COPY ols ./ols
 
 # this directory is checked by ecosystem-cert-preflight-checks task in Konflux
