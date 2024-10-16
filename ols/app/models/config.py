@@ -330,7 +330,7 @@ class ProviderConfig(BaseModel):
                 self.certificates_store = certificate_directory
             else:
                 self.certificates_store = os.path.join(
-                    certificate_directory, constants.CERTIFICATE_STORAGE_FILENAME
+                    certificate_directory, "service-ca.crt"
                 )
 
     def set_provider_type(self, data: dict) -> None:
