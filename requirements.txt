@@ -817,9 +817,9 @@ langsmith==0.1.128 \
     #   langchain
     #   langchain-community
     #   langchain-core
-llama-cloud==0.1.0 \
-    --hash=sha256:8b31e1fb87f48c397c1a6415816cf37afcb4abe9fe7a5eb4101a2dc6d5c6ebbc \
-    --hash=sha256:e315046d856780d996886864cd315d5f216cd398b3bd3f005fcae393c66f5494
+llama-cloud==0.1.22 \
+    --hash=sha256:2515e2ee20c03958f619135be1fe69ea4757d56281840a04c76adeb9efd77a30 \
+    --hash=sha256:5d938273692da50f73301aadfed1b4b10f94dfbebb9f1e131c031e033ebb2a7f
     # via llama-index-indices-managed-llama-cloud
 llama-index==0.10.62 \
     --hash=sha256:13af83c70860ba570e4ff34e57b8b3e48cf4967c925456f5526c77c52004fb44 \
