@@ -434,9 +434,9 @@ filelock==3.16.1 \
     #   transformers
     #   triton
     #   virtualenv
-findpython==0.6.1 \
-    --hash=sha256:1fb4d709205de185b0561900267dfff64a841c910fe28d6038b2394ff925a81a \
-    --hash=sha256:56e52b409a92bcbd495cf981c85acf137f3b3e51cc769b46eba219bb1ab7533c
+findpython==0.6.3 \
+    --hash=sha256:5863ea55556d8aadc693481a14ac4f3624952719efc1c5591abb0b4a9e965c94 \
+    --hash=sha256:a85bb589b559cdf1b87227cc233736eb7cad894b9e68021ee498850611939ebc
     # via pdm
 frozenlist==1.4.1 \
     --hash=sha256:04ced3e6a46b4cfffe20f9ae482818e34eba9b5fb0ce4056e4cc9b6e212d09b7 \
